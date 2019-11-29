@@ -1,0 +1,4 @@
+* Tasks
+** TODO Log window
+** TODO Game loop at 5Hz
+** TODO Append to log from game loop every 1s
