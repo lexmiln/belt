@@ -1,5 +1,6 @@
 var blessed = require("blessed");
 var contrib = require("blessed-contrib");
+var game = require("./game.js");
 
 var screen = blessed.screen({
   smartCSR: true
@@ -9,16 +10,13 @@ screen.title = "Hi Title";
 
 var log = contrib.log({
   fg: "green",
-  selectedFg: "green",
-  label: "Server Log"
+  selectedFg: "green"
 });
 
-log.log("new log line");
-
 var box = blessed.box({
-  top: "center",
-  left: "right",
-  width: "30%",
+  right: 0,
+  bottom: 0,
+  width: "40%",
   height: "50%",
   tags: true,
   border: {
@@ -55,11 +53,24 @@ screen.key(["escape", "q", "C-c"], function() {
 });
 
 box.key("enter", function() {
-  box.setContent("{center}Centered?!{/center}");
-
+  log.log("enter: " + new Date());
   screen.render();
 });
 
 box.focus();
 
 screen.render();
+
+var last = new Date();
+
+setInterval(() => {
+  const now = new Date();
+  const delta = (now - last) / 1000;
+  last = now;
+
+  game.tick(log, delta);
+
+  donut.setData([{ percent: game.state.power, label: "web1", color: "green" }]);
+
+  screen.render();
+}, 100);
