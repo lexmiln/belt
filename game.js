@@ -1,9 +1,12 @@
 const Util = require("./util");
+const Entities = require('./entities');
 
+const ME = "me";
 const ASTEROID = "asteroid";
 
 const state = {
   objects: [
+    Entities.make({type: ME}),
     makeAsteroid(),
     makeAsteroid(),
     makeAsteroid()
@@ -12,7 +15,7 @@ const state = {
 };
 
 function makeAsteroid() {
-  return {
+  return Entities.make({
     type: ASTEROID,
     x: Util.random(-1000, 1000),
     y: Util.random(-1000, 1000),
@@ -20,7 +23,7 @@ function makeAsteroid() {
     dx: Util.random(-1, 1),
     dy: Util.random(-10, 10),
     dz: Util.random(-1, 1),
-  };
+  });
 }
 
 

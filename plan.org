@@ -1,7 +1,9 @@
 * Tasks
 ** DONE Log window
-   CLOSED: [2019-11-29 Fri 11:50]
 ** DONE Game loop at 5Hz
-   CLOSED: [2019-11-29 Fri 12:11]
-** TODO Append to log from game loop every 1s
-** TODO Add random walk to gauge via game state
+** DONE Append to log from game loop every 1s
+** DONE Add random walk to gauge via game state
+** TODO Console that commands can be typed into
+** TODO Commands can be entered by performing actions in the scanner
+** TODO Implement "match" and "approach" commands
+** TODO Donuts for thruster power, G-force, energy

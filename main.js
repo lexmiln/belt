@@ -1,6 +1,7 @@
 var blessed = require("blessed");
 var contrib = require("blessed-contrib");
 var game = require("./game.js");
+var Util = require("./util");
 
 var screen = blessed.screen({
   smartCSR: true
@@ -32,20 +33,31 @@ var scanner = blessed.listtable({
   top: "10%",
   width: "60%",
   height: "30%",
+  keys: true,
   border: {
     type: "line",
-    fg: "#999",
   },
   noCellBorders: true,
+  style: {
+    border: {
+      fg: "#999",
+    },
+    fg: "#0FF",
+    cell: {
+      selected: {
+        fg: "red",
+        bg: "white",
+      },
+    },
+  },
 });
 
 var donut = contrib.donut({
-  label: "This is the donut label",
   radius: 16,
   arcWidth: 4,
   remainColor: "black",
   yPadding: 2,
-  data: [{ percent: 80, label: "Power", color: "red" }]
+  data: [{ percent: 80, label: "Power", color: "red" }],
 });
 
 screen.append(donut);
@@ -61,7 +73,7 @@ logbox.key("enter", function() {
   screen.render();
 });
 
-logbox.focus();
+scanner.focus();
 
 screen.render();
 
@@ -76,14 +88,18 @@ setInterval(() => {
 
   donut.setData([{ percent: game.state.power, label: "Power", color: "red" }]);
 
-  const scannerHeader = [["Type", "X", "Y", "Z", "Distance"]];
+  const selectedIndex = scanner.selected;
+
+  const scannerHeader = [["Type", "X", "Y", "Z", "Range", "Azimuth"]];
   const scannerRows = scannerHeader.concat(game.state.objects.map(obj => {
-    const distance = Math.sqrt(obj.x * obj.x + obj.y * obj.y + obj.z * obj.z);
     return [obj.type, 
-      obj.x.toFixed(3), obj.y.toFixed(3), obj.z.toFixed(3), distance.toFixed(3)]
+      obj.x.toFixed(3), obj.y.toFixed(3), obj.z.toFixed(3), 
+      Util.distance(obj).toFixed(3), 
+      Util.bearing(obj).toFixed(3)];
   }));
 
   scanner.setData(scannerRows);
+  scanner.select(selectedIndex);
 
   screen.render();
-}, 100);
+}, 150);
