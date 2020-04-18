@@ -3,7 +3,8 @@
 ** DONE Game loop at 5Hz
 ** DONE Append to log from game loop every 1s
 ** DONE Add random walk to gauge via game state
-** TODO Console that commands can be typed into
+** DONE Console that commands can be typed into
+** TODO Better visual feedback for focused panel
 ** TODO Commands can be entered by performing actions in the scanner
 ** TODO Implement "match" and "approach" commands
 ** TODO Donuts for thruster power, G-force, energy
