@@ -2,7 +2,6 @@ var blessed = require("blessed");
 var contrib = require("blessed-contrib");
 var game = require("./game.js");
 var Panels = require("./panels/panels");
-var Util = require("./util");
 var focus = require("./focus");
 
 var screen = blessed.screen({
@@ -20,12 +19,12 @@ var donut = contrib.donut({
 });
 
 const console = new Panels.console.Console();
-const scanner = new Panels.scanner.Scanner();
+const scanner = new Panels.scanner.Scanner(console.log);
 
 const focus_manager = new focus.FocusManager();
 
-focus_manager.add(console);
 focus_manager.add(scanner);
+focus_manager.add(console);
 
 screen.append(donut);
 screen.append(console.box);
@@ -45,6 +44,10 @@ console.onTab = () => {
   screen.render();
 };
 
+scanner.onCommand = (command) => {
+  console.command(command);
+};
+
 screen.render();
 focus_manager.next();
 
@@ -58,25 +61,7 @@ setInterval(() => {
   game.tick(console.log, delta);
 
   donut.setData([{ percent: game.state.power, label: "Power", color: "red" }]);
-
-  const selectedIndex = scanner.scanner.selected;
-
-  const scannerHeader = [["Type", "X", "Y", "Z", "Range", "Azimuth"]];
-  const scannerRows = scannerHeader.concat(
-    game.state.objects.map((obj) => {
-      return [
-        obj.type,
-        obj.x.toFixed(3),
-        obj.y.toFixed(3),
-        obj.z.toFixed(3),
-        Util.distance(obj).toFixed(3),
-        Util.bearing(obj).toFixed(3),
-      ];
-    })
-  );
-
-  scanner.scanner.setData(scannerRows);
-  scanner.scanner.select(selectedIndex);
+  scanner.setObjects(game.state.objects);
 
   screen.render();
 }, 500);

@@ -5,6 +5,6 @@
 ** DONE Add random walk to gauge via game state
 ** DONE Console that commands can be typed into
 ** DONE Better visual feedback for focused panel
-** TODO Commands can be entered by performing actions in the scanner
+** DONE Commands can be entered by performing actions in the scanner
 ** TODO Implement "match" and "approach" commands
 ** TODO Donuts for thruster power, G-force, energy

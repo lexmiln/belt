@@ -4,6 +4,7 @@ var contrib = require("blessed-contrib");
 class Console {
   constructor() {
     this.onTab = () => {};
+    this.log = message => this.logelement.log(message);
 
     this.box = blessed.box({
       right: 0,
@@ -18,7 +19,7 @@ class Console {
       label: "LOG",
     });
 
-    this.log = contrib.log({
+    this.logelement = contrib.log({
       top: 0,
       left: 0,
       right: 0,
@@ -40,7 +41,7 @@ class Console {
       inputOnFocus: true,
     });
 
-    this.box.append(this.log);
+    this.box.append(this.logelement);
     this.box.append(this.commandline);
     this.box.append(this.prompt);
 
@@ -53,7 +54,7 @@ class Console {
     });
 
     this.commandline.on("submit", (value) => {
-      this.log.log("cmd > " + value);
+      this.command(value);
       this.commandline.clearValue();
       this.commandline.focus();
       this.commandline.screen.render();
@@ -70,6 +71,10 @@ class Console {
     this.commandline.cancel();
     this.box.style.border.fg = "blue";
     this.prompt.hide();
+  }
+  
+  command(command) {
+    this.log("cmd > " + command);
   }
 }
 

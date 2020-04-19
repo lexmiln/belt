@@ -1,7 +1,12 @@
 var blessed = require("blessed");
+var Util = require("../util");
 
 class Scanner {
-  constructor() {
+  constructor(log) {
+    this.onCommand = () => {};
+    this.objects = [];
+    this.log = log;
+
     this.box = blessed.box({
       top: 2,
       left: 0,
@@ -22,7 +27,7 @@ class Scanner {
       bottom: 0,
       noCellBorders: true,
       style: {
-        fg: "#0FF",
+        fg: "green",
         cell: {
           selected: {
             fg: "red",
@@ -32,7 +37,48 @@ class Scanner {
       },
     });
 
+    this.scanner.key("m", () => {
+      this.onCommand(`match ${this.getSelectedObject().id}`);
+    });
+
+    this.scanner.key("a", () => {
+      this.onCommand(`approach ${this.getSelectedObject().id}`);
+    });
+
     this.box.append(this.scanner);
+  }
+
+  getSelectedObject() {
+    return this.objects[this.scanner.selected - 1];
+  }
+
+  setObjects(objects) {
+    const selectedObject = this.getSelectedObject();
+
+    this.objects = objects;
+    let selectedIndex = -1;
+
+    const scannerHeader = [["ID", "Type", "X", "Y", "Z", "Range", "Azimuth"]];
+    const scannerRows = scannerHeader.concat(
+      objects.map((obj, index) => {
+        if (obj === selectedObject) {
+          selectedIndex = index;
+        }
+
+        return [
+          obj.id.toString(),
+          obj.type,
+          obj.x.toFixed(3),
+          obj.y.toFixed(3),
+          obj.z.toFixed(3),
+          Util.distance(obj).toFixed(3),
+          Util.bearing(obj).toFixed(3),
+        ];
+      })
+    );
+
+    this.scanner.setData(scannerRows);
+    this.scanner.select(selectedIndex + 1);
   }
 
   focus() {
