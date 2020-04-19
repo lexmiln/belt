@@ -13,6 +13,10 @@ class Entity {
     }
 }
 
+Entity.ME = "me";
+Entity.ASTEROID = "asteroid";
+
+exports.Entity = Entity;
 exports.make = function(options = {}) {
     return new Entity(options);
 }

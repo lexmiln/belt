@@ -18,7 +18,7 @@ var donut = contrib.donut({
   data: [{ percent: 80, label: "Power", color: "red" }],
 });
 
-const console = new Panels.console.Console();
+const console = new Panels.console.Console(game);
 const scanner = new Panels.scanner.Scanner(console.log);
 
 const focus_manager = new focus.FocusManager();
@@ -64,4 +64,4 @@ setInterval(() => {
   scanner.setObjects(game.state.objects);
 
   screen.render();
-}, 500);
+}, 10);

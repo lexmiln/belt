@@ -8,3 +8,4 @@
 ** DONE Commands can be entered by performing actions in the scanner
 ** TODO Implement "match" and "approach" commands
 ** TODO Donuts for thruster power, G-force, energy
+** TODO Verb and noun disambiguation

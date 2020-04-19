@@ -2,15 +2,16 @@ var blessed = require("blessed");
 var contrib = require("blessed-contrib");
 
 class Console {
-  constructor() {
+  constructor(game) {
     this.onTab = () => {};
     this.log = message => this.logelement.log(message);
+    this.game = game;
 
     this.box = blessed.box({
       right: 0,
       bottom: 3,
-      width: "40%",
-      height: "50%",
+      width: "70%",
+      height: "30%",
       tags: true,
       border: {
         type: "line",
@@ -75,6 +76,9 @@ class Console {
   
   command(command) {
     this.log("cmd > " + command);
+    const result = this.game.command(command);
+    this.log(result);
+    this.box.screen.render();
   }
 }
 
