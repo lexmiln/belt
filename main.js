@@ -37,9 +37,13 @@ screen.key(["escape", "q", "C-c"], function() {
 
 screen.key(["tab"], function() {
   focus_manager.next();
+  screen.render();
 });
 
-console.onTab = () => { focus_manager.next() };
+console.onTab = () => {
+  focus_manager.next();
+  screen.render();
+};
 
 screen.render();
 focus_manager.next();
@@ -75,4 +79,4 @@ setInterval(() => {
   scanner.scanner.select(selectedIndex);
 
   screen.render();
-}, 150);
+}, 500);

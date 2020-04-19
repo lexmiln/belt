@@ -13,8 +13,9 @@ class Console {
       tags: true,
       border: {
         type: "line",
-        fg: "#999",
+        fg: "blue",
       },
+      label: "LOG",
     });
 
     this.log = contrib.log({
@@ -23,22 +24,19 @@ class Console {
       right: 0,
       bottom: 1,
       fg: "green",
-      selectedFg: "green",
-      bg: "red",
     });
 
     this.prompt = blessed.text({
-      content: ">",
+      content: "cmd >",
       left: 0,
       bottom: 0,
     });
 
     this.commandline = blessed.textbox({
-      left: 2,
+      left: 6,
       right: 0,
       bottom: 0,
       height: 1,
-      bg: "blue",
       inputOnFocus: true,
     });
 
@@ -55,20 +53,23 @@ class Console {
     });
 
     this.commandline.on("submit", (value) => {
-      this.log.log("< " + value);
+      this.log.log("cmd > " + value);
       this.commandline.clearValue();
       this.commandline.focus();
+      this.commandline.screen.render();
     });
   }
 
   focus() {
-    this.log.log("Panel focused");
     this.commandline.focus();
+    this.box.style.border.fg = "white";
+    this.prompt.show();
   }
 
   blur() {
-    this.log.log("Panel blurred");
     this.commandline.cancel();
+    this.box.style.border.fg = "blue";
+    this.prompt.hide();
   }
 }
 

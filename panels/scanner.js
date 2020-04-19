@@ -5,13 +5,14 @@ class Scanner {
     this.box = blessed.box({
       top: 2,
       left: 0,
-      width: "70%",
+      width: "80%",
       height: "30%",
       tags: true,
       border: {
         type: "line",
-        fg: "#999",
+        fg: "blue",
       },
+      label: "SCANNER",
     });
 
     this.scanner = blessed.listtable({
@@ -36,9 +37,11 @@ class Scanner {
 
   focus() {
     this.scanner.focus();
+    this.box.style.border.fg = "white";
   }
 
   blur() {
+    this.box.style.border.fg = "blue";
   }
 }
 
